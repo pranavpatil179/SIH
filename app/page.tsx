@@ -96,10 +96,16 @@ export default function Home() {
             Start an application <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
+            href="/departments"
+            className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
+          >
+            Departments Demo (Officers)
+          </Link>
+          <Link
             href="/login"
             className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
           >
-            Officer / Nodal login
+            Other login
           </Link>
         </div>
 
