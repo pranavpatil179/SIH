@@ -332,7 +332,7 @@ export const schemes: Scheme[] = [
     authority: "State Industries Department",
     benefit: "₹1/unit power tariff rebate for 5 years",
     eligibility: {
-      sector: ["chemical", "engineering", "textile"],
+      sector: ["chemical", "textile"],
       stage: ["new_setup"],
     },
   },
