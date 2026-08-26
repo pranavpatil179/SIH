@@ -93,7 +93,7 @@ export async function extractWithGemini(
     // Dynamic import so Next.js doesn't bundle this for client
     const { GoogleGenerativeAI } = await import("@google/generative-ai");
     const genai = new GoogleGenerativeAI(apiKey);
-    const model = genai.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genai.getGenerativeModel({ model: "gemini-1.5-pro" });
 
     const result = await model.generateContent([
       OCR_PROMPT,
