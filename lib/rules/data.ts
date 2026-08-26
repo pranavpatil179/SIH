@@ -152,7 +152,7 @@ export const approvalTypes: ApprovalType[] = [
   },
 ];
 
-const MANUFACTURING = ["food_processing", "chemical", "textile", "engineering"] as const;
+const MANUFACTURING = ["food_processing", "chemical", "textile"] as const;
 
 export const applicabilityRules: ApplicabilityRule[] = [
   {

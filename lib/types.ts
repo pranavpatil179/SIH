@@ -10,9 +10,7 @@ export type Role = "applicant" | "officer" | "nodal" | "inspector";
 export type Sector =
   | "food_processing"
   | "chemical"
-  | "textile"
-  | "engineering"
-  | "it_services";
+  | "textile";
 
 export type PollutionCategory = "red" | "orange" | "green" | "white";
 export type Stage = "new_setup" | "operating" | "expansion";

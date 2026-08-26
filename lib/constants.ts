@@ -96,8 +96,6 @@ export const SECTORS = [
   { value: "food_processing", label: "Food processing / packaged food" },
   { value: "chemical", label: "Chemical manufacturing" },
   { value: "textile", label: "Textile / apparel" },
-  { value: "engineering", label: "Engineering / fabrication" },
-  { value: "it_services", label: "IT / software services" },
 ] as const;
 
 export const STAGES = [
