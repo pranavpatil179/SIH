@@ -4,8 +4,8 @@
  * Uses @google/generative-ai (gemini-1.5-flash) to extract structured fields
  * from a document image and return a risk score.
  *
- * If GOOGLE_AI_API_KEY is not set, returns a realistic mock response so the
- * full UI flow works without an API key (great for SIH demo setup).
+ * Requires GOOGLE_AI_API_KEY set to a valid Google AI Studio key (starts with AIzaSy...).
+ * Get one free at: https://aistudio.google.com/app/apikey
  */
 
 import type { RiskLevel } from "@/lib/types";
@@ -18,17 +18,18 @@ export interface GeminiOcrResult {
   raw_text: string;
   risk_level: RiskLevel;
   risk_reason: string;
+  error?: string; // Set when real analysis failed
 }
 
 const OCR_PROMPT = `You are a document analysis assistant for a government approval portal.
 Analyze this document image and extract the following information in JSON format:
 
 {
-  "licence_number": "the licence or registration number, or null if not found",
-  "company_name": "the company or applicant name, or null",
+  "licence_number": "the licence or registration number visible in the document, or null if not found",
+  "company_name": "the company or applicant name visible in the document, or null",
   "valid_from": "validity start date in YYYY-MM-DD format, or null",
   "valid_until": "validity end date in YYYY-MM-DD format, or null",
-  "raw_text": "all visible text in the document, briefly summarized",
+  "raw_text": "all visible text in the document, summarized in 2-3 sentences",
   "risk_level": "low | medium | high",
   "risk_reason": "one sentence explaining the risk assessment"
 }
@@ -36,9 +37,10 @@ Analyze this document image and extract the following information in JSON format
 For risk_level:
 - "low" = document looks authentic with consistent formatting and clear data
 - "medium" = some inconsistencies (font mismatch, unclear stamp, partially obscured text)
-- "high" = signs of tampering (pasted text, inconsistent dates, overlaid images, multiple fonts)
+- "high" = signs of tampering (pasted text, inconsistent dates, overlaid images, multiple fonts) OR this is clearly not a government document (e.g. a selfie, personal photo, unrelated image)
 
 IMPORTANT: Do NOT claim the document is genuine. Only report what you observe.
+If the image is NOT a document (e.g. a selfie or photo of a person), set risk_level to "high" and explain in risk_reason.
 Return ONLY valid JSON, no markdown fences.`;
 
 /** Convert image bytes to a Gemini-compatible inline data part. */
@@ -51,24 +53,17 @@ function imageToInlinePart(bytes: Buffer, mimeType: string) {
   };
 }
 
-/** Generate a mock response for demo/dev use when no API key is configured. */
-function mockResponse(fileName: string): GeminiOcrResult {
-  const isFood = fileName.toLowerCase().includes("fssai");
-  const isFactory = fileName.toLowerCase().includes("factory");
-
+/** Returned when OCR analysis could not be completed. */
+function failedResult(reason: string): GeminiOcrResult {
   return {
-    licence_number: isFood
-      ? "100" + Math.floor(Math.random() * 900000000 + 100000000)
-      : isFactory
-        ? "MH/FAC/" + Math.floor(Math.random() * 90000 + 10000)
-        : "LIC-" + Math.floor(Math.random() * 9000000 + 1000000),
-    company_name: null,  // applicant fills this from their own record
-    valid_from: "2026-01-01",
-    valid_until: "2027-12-31",
-    raw_text: "[Mock OCR — set GOOGLE_AI_API_KEY to enable real extraction]",
-    risk_level: "low",
-    risk_reason:
-      "Mock analysis: document structure appears consistent (no real image analyzed).",
+    licence_number: null,
+    company_name: null,
+    valid_from: null,
+    valid_until: null,
+    raw_text: "Analysis could not be completed.",
+    risk_level: "high",
+    risk_reason: reason,
+    error: reason,
   };
 }
 
@@ -79,9 +74,19 @@ export async function extractWithGemini(
 ): Promise<GeminiOcrResult> {
   const apiKey = process.env.GOOGLE_AI_API_KEY;
 
-  // No key → return realistic mock
+  // No key set
   if (!apiKey) {
-    return mockResponse(fileName);
+    return failedResult(
+      "GOOGLE_AI_API_KEY is not configured. Go to https://aistudio.google.com/app/apikey to get a free API key and add it to your Vercel environment variables."
+    );
+  }
+
+  // Warn if key looks wrong (Gemini keys start with AIzaSy)
+  if (!apiKey.startsWith("AIzaSy")) {
+    console.warn(
+      "[gemini] Warning: GOOGLE_AI_API_KEY does not look like a valid Gemini API key. " +
+      "Keys from https://aistudio.google.com/app/apikey start with 'AIzaSy'."
+    );
   }
 
   try {
@@ -106,8 +111,20 @@ export async function extractWithGemini(
     }
 
     return parsed;
-  } catch (err) {
-    console.error("[gemini] OCR failed, falling back to mock:", err);
-    return mockResponse(fileName);
+  } catch (err: any) {
+    console.error("[gemini] OCR failed:", err);
+
+    // Provide a clear error message based on the failure type
+    const message = err?.message ?? String(err);
+    if (message.includes("API_KEY_INVALID") || message.includes("400")) {
+      return failedResult(
+        "Gemini API key is invalid. Please get a valid key from https://aistudio.google.com/app/apikey (keys start with AIzaSy) and update GOOGLE_AI_API_KEY in Vercel."
+      );
+    }
+    if (message.includes("quota") || message.includes("429")) {
+      return failedResult("Gemini API quota exceeded. Please check your Google AI Studio usage.");
+    }
+
+    return failedResult(`Gemini analysis failed: ${message}`);
   }
 }

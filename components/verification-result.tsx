@@ -175,19 +175,27 @@ export function VerificationResult({ extraction, verification, fileUrl, fileName
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1">
             <Shield className="h-3.5 w-3.5" /> AI Tamper Analysis
           </p>
-          <Row
-            label="Risk level"
-            value={RISK_META[verification.ai_risk ?? "low"]?.label ?? "N/A"}
-            status={RISK_META[verification.ai_risk ?? "low"]?.status ?? "na"}
-          />
-          {verification.ai_reasoning && (
-            <p className="text-xs text-slate-500 ml-6 italic">
-              {verification.ai_reasoning}
-            </p>
+          {verification.ai_reasoning?.startsWith("Gemini") || verification.ai_reasoning?.startsWith("GOOGLE_AI") || verification.ai_reasoning?.includes("failed") ? (
+            <div className="rounded-lg bg-red-50 px-3 py-2 ring-1 ring-red-200 text-xs text-red-700">
+              <strong>⚠️ AI Analysis Failed:</strong> {verification.ai_reasoning}
+            </div>
+          ) : (
+            <>
+              <Row
+                label="Risk level"
+                value={RISK_META[verification.ai_risk ?? "low"]?.label ?? "N/A"}
+                status={RISK_META[verification.ai_risk ?? "low"]?.status ?? "na"}
+              />
+              {verification.ai_reasoning && (
+                <p className="text-xs text-slate-500 ml-6 italic">
+                  {verification.ai_reasoning}
+                </p>
+              )}
+              <p className="text-xs text-slate-400 ml-6">
+                ℹ️ &ldquo;No obvious tampering detected&rdquo; ≠ guaranteed genuine. Final decision by officer.
+              </p>
+            </>
           )}
-          <p className="text-xs text-slate-400 ml-6">
-            ℹ️ &ldquo;No obvious tampering detected&rdquo; ≠ guaranteed genuine. Final decision by officer.
-          </p>
         </div>
       )}
 
