@@ -9,7 +9,9 @@ import { CategoryBadge } from "@/components/category-badge";
 import { SLACountdown } from "@/components/sla-countdown";
 import { OfficerActions } from "@/components/officer-actions";
 import { SlaSweepButton } from "@/components/sla-sweep-button";
-import type { ApprovalStatus, PollutionCategory, ScrutinyLevel } from "@/lib/types";
+import { getDocumentsForApproval } from "@/app/app/document-actions";
+import { VerificationResult } from "@/components/verification-result";
+import type { ApprovalStatus, PollutionCategory, ScrutinyLevel, DocumentWithVerification } from "@/lib/types";
 
 const DECIDED: ApprovalStatus[] = ["approved", "deemed_approved", "rejected"];
 
@@ -95,6 +97,13 @@ export default async function OfficerConsole() {
     (i) => i.slaDue && new Date(i.slaDue).getTime() < now,
   ).length;
 
+  // Fetch documents for the pending items
+  const docsMap = Object.fromEntries(
+    await Promise.all(
+      pending.map(async (i) => [i.id, await getDocumentsForApproval(i.id)])
+    )
+  );
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -142,39 +151,64 @@ export default async function OfficerConsole() {
           </CardContent>
         </Card>
       ) : (
-        <div className="mt-3 space-y-3">
-          {pending.map((i) => (
-            <Card key={i.id}>
-              <CardContent className="flex flex-col gap-3 py-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-semibold text-slate-900">
-                      {i.business}
-                    </span>
-                    <CategoryBadge category={i.category} />
+        <div className="mt-3 space-y-4">
+          {pending.map((i) => {
+            const docs = docsMap[i.id] ?? [];
+            return (
+              <Card key={i.id}>
+                <CardContent className="flex flex-col gap-3 py-4">
+                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-semibold text-slate-900">
+                          {i.business}
+                        </span>
+                        <CategoryBadge category={i.category} />
+                      </div>
+                      <div className="mt-0.5 text-sm text-slate-600">
+                        {i.name} · <span className="text-slate-400">{i.project}</span>
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <ScrutinyBadge level={i.scrutiny} />
+                        <StatusChip status={i.status} />
+                        <SLACountdown dueAt={i.slaDue} />
+                      </div>
+                      {i.status === "query_raised" && i.query && (
+                        <div className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 ring-1 ring-amber-100">
+                          <strong>Query sent:</strong> {i.query}
+                        </div>
+                      )}
+                    </div>
+                    <OfficerActions
+                      id={i.id}
+                      status={i.status}
+                      requiresInspection={i.requiresInspection}
+                    />
                   </div>
-                  <div className="mt-0.5 text-sm text-slate-600">
-                    {i.name} · <span className="text-slate-400">{i.project}</span>
-                  </div>
-                  <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <ScrutinyBadge level={i.scrutiny} />
-                    <StatusChip status={i.status} />
-                    <SLACountdown dueAt={i.slaDue} />
-                  </div>
-                  {i.status === "query_raised" && i.query && (
-                    <div className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 ring-1 ring-amber-100">
-                      <strong>Query sent:</strong> {i.query}
+
+                  {/* Documents section */}
+                  {docs.length > 0 && (
+                    <div className="mt-4 border-t border-slate-100 pt-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Uploaded Documents
+                      </p>
+                      <div className="mt-2 space-y-3">
+                        {docs.map((doc: DocumentWithVerification) => (
+                          <VerificationResult
+                            key={doc.id}
+                            extraction={doc.extraction}
+                            verification={doc.verification}
+                            fileUrl={doc.file_url}
+                            fileName={doc.file_name}
+                          />
+                        ))}
+                      </div>
                     </div>
                   )}
-                </div>
-                <OfficerActions
-                  id={i.id}
-                  status={i.status}
-                  requiresInspection={i.requiresInspection}
-                />
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
 

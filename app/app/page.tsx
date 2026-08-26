@@ -10,6 +10,9 @@ import { CategoryBadge } from "@/components/category-badge";
 import { StatusChip } from "@/components/status-chip";
 import { ScrutinyBadge } from "@/components/scrutiny-badge";
 import { SLACountdown } from "@/components/sla-countdown";
+import { DocumentUpload } from "@/components/document-upload";
+import { CriticalPathEta } from "@/components/critical-path-eta";
+import { getDocumentsForApproval } from "@/app/app/document-actions";
 import type {
   ApprovalStatus,
   CompanyProfile,
@@ -19,6 +22,7 @@ import type {
   Sector,
   Stage,
 } from "@/lib/types";
+
 
 const DECIDED: ApprovalStatus[] = ["approved", "deemed_approved", "rejected"];
 
@@ -34,7 +38,10 @@ interface ApprovalVM {
   authority: string;
   legal_basis: string;
   department: string;
+  sla_days: number;
+  required_documents: string[];
 }
+
 
 export default async function Dashboard() {
   await sweepDeemed();
@@ -50,7 +57,7 @@ export default async function Dashboard() {
        ),
        approvals:application_approvals(
          id, status, scrutiny_level, requires_inspection, sla_due_at, decided_at, query_note,
-         approval_type:approval_types( name, authority, legal_basis ),
+         approval_type:approval_types( name, authority, legal_basis, sla_days, required_documents ),
          department:departments( name )
        )`,
     )
@@ -107,6 +114,8 @@ export default async function Dashboard() {
       authority: a.approval_type?.authority ?? "",
       legal_basis: a.approval_type?.legal_basis ?? "",
       department: a.department?.name ?? "",
+      sla_days: a.approval_type?.sla_days ?? 30,
+      required_documents: a.approval_type?.required_documents ?? [],
     }))
     .sort((x: ApprovalVM, y: ApprovalVM) => {
       const xd = DECIDED.includes(x.status) ? 1 : 0;
@@ -114,6 +123,13 @@ export default async function Dashboard() {
       if (xd !== yd) return xd - yd;
       return (x.sla_due_at ?? "").localeCompare(y.sla_due_at ?? "");
     });
+
+  // Fetch documents for each approval (in parallel)
+  const docsMap = Object.fromEntries(
+    await Promise.all(
+      approvals.map(async (a) => [a.id, await getDocumentsForApproval(a.id)])
+    )
+  );
 
   const cleared = approvals.filter((a) =>
     ["approved", "deemed_approved"].includes(a.status),
@@ -222,39 +238,70 @@ export default async function Dashboard() {
         </Card>
       )}
 
+      {/* Estimated clearance time — critical path model */}
+      <CriticalPathEta
+        approvals={approvals.map((a) => ({
+          id: a.id,
+          name: a.name,
+          sla_days: a.sla_days,
+          status: a.status,
+          department: a.department,
+        }))}
+      />
+
       {/* Approval tracker */}
       <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
-        Your approvals
+        Your approvals &amp; documents
       </h2>
-      <div className="mt-3 space-y-3">
+      <div className="mt-3 space-y-4">
         {approvals.map((a) => (
           <Card key={a.id}>
-            <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-slate-900">{a.name}</span>
-                  <ScrutinyBadge level={a.scrutiny_level} />
-                </div>
-                <div className="mt-1 text-xs text-slate-500">
-                  {a.department} · {a.legal_basis}
-                </div>
-                {a.status === "query_raised" && a.query_note && (
-                  <div className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 ring-1 ring-amber-100">
-                    <strong>Query:</strong> {a.query_note}
+            <CardContent className="py-4">
+              {/* Approval header row */}
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-medium text-slate-900">{a.name}</span>
+                    <ScrutinyBadge level={a.scrutiny_level} />
                   </div>
-                )}
+                  <div className="mt-1 text-xs text-slate-500">
+                    {a.department} · {a.legal_basis}
+                  </div>
+                  {a.status === "query_raised" && a.query_note && (
+                    <div className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 ring-1 ring-amber-100">
+                      <strong>Query:</strong> {a.query_note}
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1">
+                  <StatusChip status={a.status} />
+                  <SLACountdown
+                    dueAt={a.sla_due_at}
+                    decided={DECIDED.includes(a.status)}
+                  />
+                </div>
               </div>
-              <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1">
-                <StatusChip status={a.status} />
-                <SLACountdown
-                  dueAt={a.sla_due_at}
-                  decided={DECIDED.includes(a.status)}
-                />
-              </div>
+
+              {/* Document upload section */}
+              {a.required_documents.length > 0 && (
+                <div className="mt-4 border-t border-slate-100 pt-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Required documents
+                  </p>
+                  <DocumentUpload
+                    approvalId={a.id}
+                    approvalName={a.name}
+                    businessId={business.id}
+                    requiredDocuments={a.required_documents}
+                    existingDocuments={docsMap[a.id] ?? []}
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
       </div>
     </main>
   );
+
 }

@@ -143,10 +143,45 @@ export interface ApplicationApproval {
 export interface DocumentRow {
   id: string;
   business_id: string;
+  application_approval_id: string | null;
   doc_type: string;
   file_name: string;
+  file_url: string | null;
   validation_status: "pending" | "valid" | "invalid" | "expired";
   expiry_date: string | null;
+}
+
+export interface DocumentExtraction {
+  id: string;
+  document_id: string;
+  licence_number: string | null;
+  company_name: string | null;
+  valid_from: string | null;
+  valid_until: string | null;
+  raw_text: string | null;
+  created_at: string;
+}
+
+export type QrStatus = "match" | "mismatch" | "no_qr";
+export type RiskLevel = "low" | "medium" | "high";
+export type VerifyStatus = "verified" | "needs_review" | "flagged" | "pending";
+
+export interface DocumentVerification {
+  id: string;
+  document_id: string;
+  qr_status: QrStatus | null;
+  qr_extracted: Record<string, string> | null;
+  ai_risk: RiskLevel | null;
+  ai_reasoning: string | null;
+  official_status: "verified" | "unverified" | "na" | null;
+  overall_status: VerifyStatus;
+  created_at: string;
+}
+
+/** Full document with its verification chain — used in the UI. */
+export interface DocumentWithVerification extends DocumentRow {
+  extraction: DocumentExtraction | null;
+  verification: DocumentVerification | null;
 }
 
 export interface Inspection {
