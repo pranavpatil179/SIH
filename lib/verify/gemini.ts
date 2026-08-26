@@ -93,7 +93,7 @@ export async function extractWithGemini(
     // Initialize Gemini
     const { GoogleGenerativeAI } = await import("@google/generative-ai");
     const genai = new GoogleGenerativeAI(apiKey);
-    const model = genai.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genai.getGenerativeModel({ model: "gemini-3.6-flash" });
 
     const result = await model.generateContent([
       OCR_PROMPT,
