@@ -27,58 +27,67 @@ import { Select } from "@/components/ui/select";
 import { CategoryBadge } from "@/components/category-badge";
 import { ScrutinyBadge } from "@/components/scrutiny-badge";
 
-const initial: ProfileInput = {
-  businessName: "",
-  pan: "",
-  sector: "food_processing",
-  project_size: "medium",
-  pollution_category: "orange",
-  stage: "new_setup",
-  location_state: "Telangana",
-};
 
 export default function NewApplication() {
-  const [form, setForm] = useState<ProfileInput>(initial);
+  const [form, setForm] = useState<ProfileInput>({
+    businessName: "",
+    sector: "chemical",
+    project_size: "micro",
+    pollution_category: "red",
+    stage: "new_setup",
+    location_state: "Maharashtra",
+    pan: "",
+    generates_hazardous_waste: null,
+    has_regulated_substances: null,
+  });
   const [preview, setPreview] = useState<ChecklistPreview | null>(null);
-  const [pending, startTransition] = useTransition();
-  const [submitting, startSubmit] = useTransition();
+  const [pending, setPending] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  function set<K extends keyof ProfileInput>(key: K, value: ProfileInput[K]) {
-    setForm((f) => ({ ...f, [key]: value }));
-  }
+  const set = (key: keyof ProfileInput, value: any) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
 
-  function onGenerate(e: React.FormEvent) {
+  async function onGenerate(e: React.FormEvent) {
     e.preventDefault();
-    startTransition(async () => setPreview(await previewChecklist(form)));
+    setPreview(null);
+    setPending(true);
+    try {
+      const p = await previewChecklist(form);
+      setPreview(p);
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setPending(false);
+    }
   }
 
-  function onSubmit() {
-    startSubmit(async () => {
+  async function onSubmit() {
+    setSubmitting(true);
+    try {
       await submitApplication(form);
-    });
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setSubmitting(false);
+    }
   }
+
+  const reqCount = preview?.items.filter(i => i.status === "required").length || 0;
+  const condCount = preview?.items.filter(i => i.status === "conditional").length || 0;
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-8">
-      <Link
-        href="/app"
-        className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700"
-      >
-        <ArrowLeft className="h-4 w-4" /> Dashboard
-      </Link>
-
-      <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
-        Know Your Approvals
+    <main className="mx-auto max-w-2xl px-4 py-8 pb-32">
+      <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+        New Project Application
       </h1>
-      <p className="mt-1 text-sm text-slate-600">
-        Tell us about your unit. We generate the exact approvals from rules —
-        change any answer and the checklist updates.
+      <p className="mt-2 text-sm text-slate-500">
+        Udyami Setu uses a deterministic rules engine to evaluate requirements. Fill out your profile and specific project details to determine exact applicability.
       </p>
 
       {/* Profile form */}
       <Card className="mt-6">
         <CardContent>
-          <form onSubmit={onGenerate} className="space-y-5">
+          <form onSubmit={onGenerate} className="space-y-5 pt-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Label htmlFor="bn">Business name</Label>
@@ -96,7 +105,7 @@ export default function NewApplication() {
                 <Select
                   id="sector"
                   value={form.sector}
-                  onChange={(e) => set("sector", e.target.value as any)}
+                  onChange={(e) => set("sector", e.target.value)}
                 >
                   {SECTORS.map((s) => (
                     <option key={s.value} value={s.value}>
@@ -111,7 +120,7 @@ export default function NewApplication() {
                 <Select
                   id="size"
                   value={form.project_size}
-                  onChange={(e) => set("project_size", e.target.value as any)}
+                  onChange={(e) => set("project_size", e.target.value)}
                 >
                   {SIZES.map((s) => (
                     <option key={s.value} value={s.value}>
@@ -126,9 +135,7 @@ export default function NewApplication() {
                 <Select
                   id="cat"
                   value={form.pollution_category}
-                  onChange={(e) =>
-                    set("pollution_category", e.target.value as any)
-                  }
+                  onChange={(e) => set("pollution_category", e.target.value)}
                 >
                   {CATEGORIES.map((c) => (
                     <option key={c.value} value={c.value}>
@@ -143,7 +150,7 @@ export default function NewApplication() {
                 <Select
                   id="stage"
                   value={form.stage}
-                  onChange={(e) => set("stage", e.target.value as any)}
+                  onChange={(e) => set("stage", e.target.value)}
                 >
                   {STAGES.map((s) => (
                     <option key={s.value} value={s.value}>
@@ -177,16 +184,45 @@ export default function NewApplication() {
                   placeholder="AAACS1234F"
                 />
               </div>
+
+              {/* Conditional Questionnaire */}
+              <div className="sm:col-span-2 pt-4 border-t border-slate-100">
+                <h3 className="text-sm font-semibold text-slate-700 mb-3">Project Specifics</h3>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <Label className="text-xs">Generates hazardous waste?</Label>
+                    <Select
+                      value={form.generates_hazardous_waste === null ? "" : String(form.generates_hazardous_waste)}
+                      onChange={(e) => set("generates_hazardous_waste", e.target.value === "" ? null : e.target.value === "true")}
+                    >
+                      <option value="">Select...</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-xs">Stores regulated petroleum/explosives?</Label>
+                    <Select
+                      value={form.has_regulated_substances === null ? "" : String(form.has_regulated_substances)}
+                      onChange={(e) => set("has_regulated_substances", e.target.value === "" ? null : e.target.value === "true")}
+                    >
+                      <option value="">Select...</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </Select>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <Button type="submit" size="lg" disabled={pending}>
               {pending ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Generating…
+                  <Loader2 className="h-4 w-4 animate-spin" /> Analyzing rules...
                 </>
               ) : (
                 <>
-                  <Search className="h-4 w-4" /> See my approvals
+                  <Search className="h-4 w-4" /> Determine Applicability
                 </>
               )}
             </Button>
@@ -199,88 +235,70 @@ export default function NewApplication() {
         <div className="mt-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-semibold tracking-tight text-slate-900">
-              {preview.items.length} approvals apply to you
+              {reqCount} required approvals {condCount > 0 && <span className="text-amber-600">({condCount} conditional)</span>}
             </h2>
             <div className="flex items-center gap-2">
               <CategoryBadge category={form.pollution_category} />
             </div>
           </div>
 
-          {preview.inspectionCount > 1 && (
-            <div className="mt-3 flex items-start gap-3 rounded-xl bg-accent-100/60 px-4 py-3 text-sm text-amber-900 ring-1 ring-accent-400/40">
-              <CalendarCheck2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" />
-              <span>
-                <strong>{preview.inspectionCount} approvals</strong> need a site
-                inspection — Udyami Setu bundles these into{" "}
-                <strong>one coordinated visit</strong>.
-              </span>
-            </div>
-          )}
-
           <div className="mt-4 space-y-3">
             {preview.items.map((it) => (
-              <Card key={it.approval.id}>
+              <Card key={it.approval.id} className={
+                it.status === 'not_applicable' ? 'opacity-50' : 
+                it.status === 'conditional' ? 'ring-1 ring-amber-200 bg-amber-50/30' : ''
+              }>
                 <CardContent className="py-4">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="font-medium text-slate-900">
                           {it.approval.name}
                         </span>
+                        {it.status === 'required' && <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">Required</span>}
+                        {it.status === 'conditional' && <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800 ring-1 ring-amber-300">Conditional</span>}
+                        {it.status === 'not_applicable' && <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">Not Applicable</span>}
                         <ScrutinyBadge level={it.scrutiny_level} />
-                        {it.requires_inspection && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700 ring-1 ring-purple-200">
-                            <ShieldCheck className="h-3 w-3" /> Inspection
-                          </span>
-                        )}
                       </div>
-                      <p className="mt-1 text-sm text-slate-600">{it.reason}</p>
-                      <p className="mt-1 text-xs text-slate-400">
-                        {it.approval.authority}
+                      
+                      {it.status === 'conditional' ? (
+                        <div className="mt-2 text-sm text-amber-900">
+                          <p>{it.reason}</p>
+                          <p className="mt-1 font-medium bg-amber-100 px-2 py-1 rounded inline-block">
+                            ? {it.missing_question}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="mt-1 text-sm text-slate-600">{it.reason}</p>
+                      )}
+                      
+                      <p className="mt-2 text-xs text-slate-400 font-medium">
+                        Authority: {it.approval.authority}
                       </p>
                     </div>
-                    <span className="whitespace-nowrap rounded-lg bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
-                      SLA {it.approval.sla_days}d
-                    </span>
+                    {it.status !== 'not_applicable' && (
+                      <span className="whitespace-nowrap rounded-lg bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
+                        SLA {it.approval.sla_days}d
+                      </span>
+                    )}
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
 
-          {preview.schemes.length > 0 && (
-            <Card className="mt-4 border-none bg-gradient-to-br from-brand-50 to-white ring-brand-100">
-              <CardContent>
-                <div className="flex items-center gap-2 text-brand-700">
-                  <Gift className="h-4 w-4" />
-                  <span className="text-sm font-semibold">
-                    Support schemes you may qualify for
-                  </span>
-                </div>
-                <ul className="mt-2 space-y-1 text-sm text-slate-700">
-                  {preview.schemes.map((s) => (
-                    <li key={s.id}>
-                      <span className="font-medium">{s.name}</span> — {s.benefit}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
           <div className="sticky bottom-4 mt-6 flex items-center justify-between gap-3 rounded-xl bg-white/90 p-3 shadow-lg ring-1 ring-slate-200 backdrop-blur">
             <span className="pl-2 text-sm text-slate-600">
-              File all {preview.items.length} in parallel — one click, every
-              department at once.
+              {condCount > 0 ? "Resolve conditional questions above to file." : `File all ${reqCount} required approvals.`}
             </span>
-            <Button size="lg" onClick={onSubmit} disabled={submitting}>
+            <Button size="lg" onClick={onSubmit} disabled={submitting || condCount > 0}>
               {submitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" /> Filing…
                 </>
               ) : (
                 <>
-                  <Send className="h-4 w-4" /> File all now
+                  <Send className="h-4 w-4" /> File required now
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}

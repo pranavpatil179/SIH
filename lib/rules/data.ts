@@ -261,25 +261,37 @@ export const applicabilityRules: ApplicabilityRule[] = [
   {
     approval_id: "hazardous_waste_auth",
     applies_if: {
-      sector: ["chemical"],
       pollution_category: ["red", "orange"],
+    },
+    condition: {
+      field: "generates_hazardous_waste",
+      expected_value: true,
+      explanation: "Applies only if your manufacturing process generates regulated hazardous waste.",
+      question: "Does your process generate any hazardous waste (e.g., chemical sludge, spent solvents)?"
     },
     scrutiny_level: {
       red: "full_inspection",
       orange: "inspection",
+      green: "not_required",
+      white: "not_required",
     },
   },
   {
     approval_id: "explosives_license",
     applies_if: {
-      sector: ["chemical"],
       stage: ["new_setup", "expansion"],
+    },
+    condition: {
+      field: "has_regulated_substances",
+      expected_value: true,
+      explanation: "Applies only if your proposed activity involves storage or handling of substances regulated under petroleum and explosives rules.",
+      question: "Do you store or use regulated petroleum or explosive substances on site?"
     },
     scrutiny_level: {
       red: "full_inspection",
       orange: "full_inspection",
       green: "inspection",
-      white: "inspection",
+      white: "not_required",
     },
   },
 ];

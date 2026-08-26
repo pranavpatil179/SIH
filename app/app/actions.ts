@@ -29,6 +29,11 @@ export interface ProfileInput {
   pollution_category: PollutionCategory;
   stage: Stage;
   location_state: string;
+  generates_hazardous_waste?: boolean | null;
+  has_regulated_substances?: boolean | null;
+  uses_boiler?: boolean | null;
+  discharges_wastewater?: boolean | null;
+  generates_air_emissions?: boolean | null;
 }
 
 function toProfile(i: ProfileInput): CompanyProfile {
@@ -38,6 +43,11 @@ function toProfile(i: ProfileInput): CompanyProfile {
     stage: i.stage,
     project_size: i.project_size,
     location_state: i.location_state,
+    generates_hazardous_waste: i.generates_hazardous_waste,
+    has_regulated_substances: i.has_regulated_substances,
+    uses_boiler: i.uses_boiler,
+    discharges_wastewater: i.discharges_wastewater,
+    generates_air_emissions: i.generates_air_emissions,
   };
 }
 

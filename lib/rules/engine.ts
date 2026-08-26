@@ -21,6 +21,8 @@ export interface ChecklistItem {
   approval: ApprovalType;
   scrutiny_level: ScrutinyLevel;
   requires_inspection: boolean;
+  status: "required" | "conditional" | "not_applicable";
+  missing_question?: string;
   reason: string;
 }
 
@@ -63,25 +65,9 @@ function scrutinyRank(s: ScrutinyLevel): number {
   }
 }
 
-function buildReason(
-  profile: CompanyProfile,
-  approval: ApprovalType,
-  scrutiny: ScrutinyLevel,
-): string {
-  const sector = profile.sector.replace(/_/g, " ");
-  const stage = profile.stage.replace(/_/g, " ");
-  if (scrutiny === "not_required") {
-    return `Not required for a ${profile.pollution_category}-category unit.`;
-  }
-  if (scrutiny === "self_certify") {
-    return `Applies to your ${sector} unit — eligible for self-certification (${profile.pollution_category} category).`;
-  }
-  return `Required for a ${profile.pollution_category}-category ${sector} unit at the ${stage} stage. ${approval.legal_basis}.`;
-}
-
 /**
  * Deterministically compute which approvals apply to a business profile.
- * Returns items ordered by scrutiny intensity, then by statutory SLA.
+ * Classifies them into Required, Conditional, or Not Applicable.
  */
 export function computeChecklist(
   profile: CompanyProfile,
@@ -92,28 +78,61 @@ export function computeChecklist(
   const items: ChecklistItem[] = [];
 
   for (const rule of rules) {
-    if (!ruleApplies(profile, rule)) continue;
+    // 1. Broad buckets check
+    if (!ruleApplies(profile, rule)) {
+      // If it doesn't even apply to this sector/stage, we usually just drop it,
+      // but to be exhaustive, we could return it as not_applicable. 
+      // For cleaner UI, we only track things that *could* apply.
+      continue;
+    }
+    
     const approval = byId.get(rule.approval_id);
     if (!approval) continue;
 
     const scrutiny = scrutinyFor(rule, profile.pollution_category);
-
-    // "not_required" means the approval drops off the checklist entirely.
     if (scrutiny === "not_required") continue;
 
     const requiresInspection =
       approval.requires_inspection &&
       (scrutiny === "inspection" || scrutiny === "full_inspection");
 
+    let status: "required" | "conditional" | "not_applicable" = "required";
+    let reason = `Required for a ${profile.pollution_category}-category ${profile.sector.replace(/_/g, " ")} unit. ${approval.legal_basis}`;
+    let missing_question = undefined;
+
+    // 2. Exact conditions check
+    if (rule.condition) {
+      const pValue = profile[rule.condition.field];
+      if (pValue === undefined || pValue === null) {
+        status = "conditional";
+        reason = rule.condition.explanation;
+        missing_question = rule.condition.question;
+      } else if (pValue === rule.condition.expected_value) {
+        status = "required";
+        // Keep standard reason, or append condition info
+      } else {
+        status = "not_applicable";
+        reason = "The applicant's information indicates this approval doesn't apply.";
+      }
+    }
+
     items.push({
       approval,
       scrutiny_level: scrutiny,
       requires_inspection: requiresInspection,
-      reason: buildReason(profile, approval, scrutiny),
+      status,
+      missing_question,
+      reason,
     });
   }
 
+  // Sort: Required first, then Conditional, then Not Applicable.
+  // Within same status, sort by scrutiny intensity, then by SLA.
   return items.sort((a, b) => {
+    const statusRank = { required: 0, conditional: 1, not_applicable: 2 };
+    if (statusRank[a.status] !== statusRank[b.status]) {
+      return statusRank[a.status] - statusRank[b.status];
+    }
     const d = scrutinyRank(a.scrutiny_level) - scrutinyRank(b.scrutiny_level);
     return d !== 0 ? d : a.approval.sla_days - b.approval.sla_days;
   });

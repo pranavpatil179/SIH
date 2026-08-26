@@ -48,6 +48,13 @@ export interface ApprovalType {
   fee_note: string | null;
 }
 
+export interface Condition {
+  field: keyof CompanyProfile;
+  expected_value: boolean | string;
+  explanation: string;
+  question: string;
+}
+
 export interface ApplicabilityRule {
   approval_id: string;
   applies_if: {
@@ -56,6 +63,7 @@ export interface ApplicabilityRule {
     stage?: Stage[];
     project_size?: ProjectSize[];
   };
+  condition?: Condition;
   /** How much scrutiny per pollution category. */
   scrutiny_level: Partial<Record<PollutionCategory, ScrutinyLevel>>;
 }
@@ -79,7 +87,16 @@ export interface CompanyProfile {
   stage: Stage;
   project_size: ProjectSize;
   location_state: string;
+  
+  // Specific questionnaire flags
+  generates_hazardous_waste?: boolean | null;
+  has_regulated_substances?: boolean | null;
+  uses_boiler?: boolean | null;
+  discharges_wastewater?: boolean | null;
+  generates_air_emissions?: boolean | null;
 }
+
+export type ChecklistStatus = "required" | "conditional" | "not_applicable";
 
 // ---- Database rows -------------------------------------------------------
 
