@@ -1,0 +1,653 @@
+{
+  "profiles": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "email": "entrepreneur@demo.com",
+      "full_name": "Rajesh Sharma",
+      "role": "entrepreneur",
+      "department_id": null,
+      "created_at": "2026-08-28T15:25:14.185Z"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "email": "officer@demo.com",
+      "full_name": "S. K. Deshmukh (General Manager)",
+      "role": "officer",
+      "department_id": "dept_dic",
+      "created_at": "2026-08-28T15:25:14.191Z"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "email": "admin@demo.com",
+      "full_name": "Director of Industries (Admin)",
+      "role": "admin",
+      "department_id": null,
+      "created_at": "2026-08-28T15:25:14.191Z"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dept_dic",
+      "name": "District Industries Centre (DIC)",
+      "sla_default_days": 15
+    },
+    {
+      "id": "dept_midc",
+      "name": "Maharashtra Industrial Development Corp (MIDC)",
+      "sla_default_days": 21
+    },
+    {
+      "id": "dept_mpcb",
+      "name": "Maharashtra Pollution Control Board (MPCB)",
+      "sla_default_days": 30
+    },
+    {
+      "id": "dept_fire",
+      "name": "Maharashtra Fire & Emergency Services (MFES)",
+      "sla_default_days": 14
+    },
+    {
+      "id": "dept_dish",
+      "name": "Directorate of Industrial Safety & Health (DISH)",
+      "sla_default_days": 20
+    },
+    {
+      "id": "dept_mseb",
+      "name": "MSEDCL / Electricity Distribution",
+      "sla_default_days": 10
+    },
+    {
+      "id": "dept_fssai",
+      "name": "Food Safety and Standards Authority (FSSAI)",
+      "sla_default_days": 15
+    }
+  ],
+  "approval_types": [
+    {
+      "id": "app_consent_est",
+      "name": "Consent to Establish (CTE)",
+      "authority": "MPCB Regional Officer",
+      "department_id": "dept_mpcb",
+      "legal_basis": "Water (Prevention & Control of Pollution) Act 1974 & Air Act 1981",
+      "sla_days": 30,
+      "required_documents": [
+        "Detailed Project Report (DPR) with Capital Investment Breakup",
+        "Process Flowchart & Material Mass Balance",
+        "Effluent Treatment Plant (ETP/STP) Engineering Scheme",
+        "Air Pollution Control (APC) Stack & Scrubber Specifications",
+        "Hazardous Waste CHWTSDF Membership Authorization (Form 1)"
+      ],
+      "requires_inspection": true,
+      "fee_note": "Tiered statutory fee under MPCB notification based on gross capital outlay",
+      "updated_at": "2026-08-28T15:49:01.818Z"
+    },
+    {
+      "id": "app_midc_allot",
+      "name": "MIDC Industrial Plot Allotment & Lease",
+      "authority": "MIDC Regional Office",
+      "department_id": "dept_midc",
+      "legal_basis": "Maharashtra Industrial Development Act 1961 (Form A)",
+      "sla_days": 21,
+      "required_documents": [
+        "Detailed Project Report (DPR) certified by Chartered Engineer",
+        "Audited Balance Sheets / Net Worth CA Certificate (Last 3 Years)",
+        "Udyam Registration Certificate / Certificate of Incorporation",
+        "Board Resolution / Partnership Deed",
+        "Industrial Land Utilization Block Plan"
+      ],
+      "requires_inspection": false,
+      "fee_note": "Standard MIDC premium rates applicable per sq. metre",
+      "updated_at": "2026-08-28T15:49:01.819Z"
+    },
+    {
+      "id": "app_building_plan",
+      "name": "Factory Building Plan Sanction",
+      "authority": "MIDC / DISH Engineering Section",
+      "department_id": "dept_midc",
+      "legal_basis": "Maharashtra Regional & Town Planning Act (MRTP 1966)",
+      "sla_days": 15,
+      "required_documents": [
+        "Architectural & Structural Blueprints in Triplicate (1:100 scale)",
+        "Soil Investigation & Bearing Capacity Report",
+        "Structural Stability Certificate (Form 1A)",
+        "Topographical Site Contour Map"
+      ],
+      "requires_inspection": true,
+      "fee_note": "Scrutiny fee ₹5 per sqm of built-up area",
+      "updated_at": "2026-08-28T15:49:01.819Z"
+    },
+    {
+      "id": "app_fire_noc",
+      "name": "Fire Department Provisional NOC",
+      "authority": "Chief Fire Officer (MFES)",
+      "department_id": "dept_fire",
+      "legal_basis": "Maharashtra Fire Prevention & Life Safety Measures Act 2006",
+      "sla_days": 14,
+      "required_documents": [
+        "Fire Hydrant & Ring Main Layout Scheme (NBC 2016 Part IV)",
+        "Underground Static Fire Water Storage Tank Blueprint (min 100kL)",
+        "Automatic Sprinkler & Heat/Smoke Detection System Layout",
+        "Emergency Evacuation Escape Plan & Exit Width Calculations"
+      ],
+      "requires_inspection": true,
+      "fee_note": "₹10,000 inspection & statutory scrutiny fee",
+      "updated_at": "2026-08-28T15:49:01.819Z"
+    },
+    {
+      "id": "app_power_sanction",
+      "name": "High Tension (HT) Power Load Sanction",
+      "authority": "MSEDCL Superintending Engineer",
+      "department_id": "dept_mseb",
+      "legal_basis": "Electricity Act 2003 & Maharashtra Electricity Regulatory Commission (MERC)",
+      "sla_days": 10,
+      "required_documents": [
+        "Connected Electrical Load Estimation Report (kW/kVA)",
+        "Single Line Diagram (SLD) signed by Certified Electrical Engineer",
+        "Substation / Transformer Yard Civil Layout",
+        "MIDC Land Possession Letter / Sanctioned Building Plan"
+      ],
+      "requires_inspection": false,
+      "fee_note": "Processing fee ₹2,500 + security deposit upon sanction",
+      "updated_at": "2026-08-28T15:49:01.820Z"
+    },
+    {
+      "id": "app_factory_license",
+      "name": "Factory License & Registration (Form 2)",
+      "authority": "Joint Director, DISH",
+      "department_id": "dept_dish",
+      "legal_basis": "The Factories Act 1948 & Maharashtra Factories Rules 1963",
+      "sla_days": 20,
+      "required_documents": [
+        "DISH Approved Factory Building Architectural Blueprints",
+        "Machinery Layout & Occupational Spacing Plan (Rule 3-A)",
+        "Structural Stability Certificate from Competent Person",
+        "Factory Safety Policy & On-Site Emergency Action Plan"
+      ],
+      "requires_inspection": true,
+      "fee_note": "Tiered license fee based on installed Horsepower (HP) and Worker strength",
+      "updated_at": "2026-08-28T15:49:01.820Z"
+    },
+    {
+      "id": "app_consent_op",
+      "name": "Consent to Operate (CTO)",
+      "authority": "MPCB Member Secretary",
+      "department_id": "dept_mpcb",
+      "legal_basis": "Water Act 1974 & Air Act 1981",
+      "sla_days": 25,
+      "required_documents": [
+        "CTE Compliance Certificate",
+        "ETP Commissioning Report",
+        "Stack Monitoring Baseline Report"
+      ],
+      "requires_inspection": true,
+      "fee_note": "Annual recurring consent fee"
+    },
+    {
+      "id": "app_fssai_license",
+      "name": "FSSAI Food Manufacturing License",
+      "authority": "State Food Safety Commissioner",
+      "department_id": "dept_fssai",
+      "legal_basis": "Food Safety and Standards Act 2006",
+      "sla_days": 15,
+      "required_documents": [
+        "Food Safety Management Plan",
+        "Potable Water Test Report",
+        "Equipment Calibration List"
+      ],
+      "requires_inspection": true,
+      "fee_note": "₹7,500 per annum"
+    }
+  ],
+  "applicability_rules": [
+    {
+      "id": "rule_1",
+      "approval_type_id": "app_consent_est",
+      "applies_if": {}
+    },
+    {
+      "id": "rule_2",
+      "approval_type_id": "app_midc_allot",
+      "applies_if": {}
+    },
+    {
+      "id": "rule_3",
+      "approval_type_id": "app_building_plan",
+      "applies_if": {
+        "stage": "new_setup"
+      }
+    },
+    {
+      "id": "rule_4",
+      "approval_type_id": "app_fire_noc",
+      "applies_if": {}
+    },
+    {
+      "id": "rule_5",
+      "approval_type_id": "app_power_sanction",
+      "applies_if": {}
+    },
+    {
+      "id": "rule_6",
+      "approval_type_id": "app_factory_license",
+      "applies_if": {
+        "min_employees": 10
+      }
+    },
+    {
+      "id": "rule_7",
+      "approval_type_id": "app_fssai_license",
+      "applies_if": {
+        "sector": "food_processing"
+      }
+    }
+  ],
+  "approval_dependencies": [
+    {
+      "id": "dep_1",
+      "approval_type_id": "app_building_plan",
+      "prerequisite_approval_type_id": "app_midc_allot"
+    },
+    {
+      "id": "dep_2",
+      "approval_type_id": "app_fire_noc",
+      "prerequisite_approval_type_id": "app_building_plan"
+    },
+    {
+      "id": "dep_3",
+      "approval_type_id": "app_factory_license",
+      "prerequisite_approval_type_id": "app_fire_noc"
+    },
+    {
+      "id": "dep_4",
+      "approval_type_id": "app_consent_op",
+      "prerequisite_approval_type_id": "app_consent_est"
+    }
+  ],
+  "businesses": [],
+  "projects": [],
+  "applications": [],
+  "application_approvals": [],
+  "documents": [],
+  "document_verifications": [],
+  "queries": [],
+  "query_responses": [],
+  "inspections": [],
+  "schemes": [
+    {
+      "id": "scheme_psi_2019",
+      "name": "Maharashtra Package Scheme of Incentives (PSI 2019)",
+      "description": "Comprehensive fiscal incentives including Industrial Promotion Subsidy (IPS), electricity duty exemption, and interest subsidy for manufacturing units setup in Vidarbha, Marathwada, and developing industrial zones.",
+      "department_id": "dept_dic",
+      "benefit": "Up to 80% Gross Fixed Capital Subsidy + 100% Electricity Duty Exemption for 7 years",
+      "sector_eligibility": [
+        "manufacturing",
+        "chemical",
+        "textile",
+        "agro",
+        "pharmaceutical"
+      ],
+      "location_eligibility": [
+        "Maharashtra",
+        "All India"
+      ],
+      "min_investment_crore": 5,
+      "max_investment_crore": 500,
+      "status": "active"
+    },
+    {
+      "id": "scheme_msme_interest",
+      "name": "Maharashtra MSME 5% Interest Subvention Scheme",
+      "description": "Direct interest subvention of 5% on term loans disbursed by Scheduled Commercial Banks to newly registered Micro & Small enterprises.",
+      "department_id": "dept_dic",
+      "benefit": "5% annual interest reimbursement on term loan up to ₹25 Lakhs per year for 5 years",
+      "sector_eligibility": [
+        "manufacturing",
+        "food_processing",
+        "textile",
+        "agro",
+        "it_services"
+      ],
+      "location_eligibility": [
+        "Maharashtra"
+      ],
+      "min_investment_crore": 0.25,
+      "max_investment_crore": 10,
+      "status": "active"
+    },
+    {
+      "id": "scheme_green_energy",
+      "name": "Green Energy & Zero Liquid Discharge (ZLD) Capital Grant",
+      "description": "Financial assistance for industrial units installing effluent zero-discharge treatment facilities, rooftop solar power systems, and rainwater harvesting infrastructure.",
+      "department_id": "dept_mpcb",
+      "benefit": "25% capital subsidy on pollution abatement & solar equipment up to ₹50 Lakhs",
+      "sector_eligibility": [
+        "manufacturing",
+        "chemical",
+        "pharmaceutical",
+        "food_processing"
+      ],
+      "location_eligibility": [
+        "Maharashtra"
+      ],
+      "min_investment_crore": 1,
+      "max_investment_crore": 100,
+      "status": "active"
+    },
+    {
+      "id": "scheme_export_msme",
+      "name": "Export Promotion & Quality Certification Support",
+      "description": "100% reimbursement of fee incurred on ISO, CE, BIS, and international quality testing certifications for export-oriented manufacturers.",
+      "department_id": "dept_dic",
+      "benefit": "Up to ₹15 Lakhs reimbursement for certification + ₹5 Lakhs stall subsidy in global expos",
+      "sector_eligibility": [
+        "manufacturing",
+        "pharmaceutical",
+        "textile",
+        "food_processing"
+      ],
+      "location_eligibility": [
+        "Maharashtra"
+      ],
+      "min_investment_crore": 0.5,
+      "status": "active"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_001",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "type": "approval_approved",
+      "title": "MIDC Allotment Order Approved",
+      "message": "Your application for MIDC Industrial Land Allotment (MIDC/PN/2026/IND-4421) has been approved.",
+      "entity_type": "approval",
+      "entity_id": "aprv_002",
+      "is_read": false,
+      "created_at": "2026-08-26T15:25:14.191Z"
+    },
+    {
+      "id": "notif_002",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "type": "query_raised",
+      "title": "MPCB Query Raised on CTE",
+      "message": "An officer raised a query regarding acoustic enclosure drawings for your Consent to Establish.",
+      "entity_type": "query",
+      "entity_id": "query_001",
+      "is_read": false,
+      "created_at": "2026-08-25T15:25:14.191Z"
+    },
+    {
+      "id": "noti_1787931282789_3ts2k",
+      "created_at": "2026-08-28T15:34:42.789Z",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "type": "application_submitted",
+      "title": "Application Submitted",
+      "message": "Your application has been submitted successfully with 7 approval workflow(s) initiated.",
+      "entity_type": "application",
+      "entity_id": "app_inst_001",
+      "is_read": false
+    }
+  ],
+  "compliance_obligations": [
+    {
+      "id": "comp_001",
+      "application_approval_id": "aprv_001",
+      "name": "Quarterly Environmental Monitoring Report",
+      "description": "Submit ambient air quality and noise monitoring report to MPCB Sub-Regional Office Pune.",
+      "department_id": "dept_mpcb",
+      "frequency": "Quarterly",
+      "due_date": "2026-10-12T15:25:14.191Z",
+      "status": "pending",
+      "source": "Consent to Establish (CTE) condition #12",
+      "created_at": "2026-08-28T15:25:14.191Z"
+    },
+    {
+      "id": "comp_002",
+      "application_approval_id": "aprv_005",
+      "name": "Annual Electrical Safety & Earthing Audit",
+      "description": "Conduct and file yearly electrical inspection report certified by Licensed Electrical Contractor.",
+      "department_id": "dept_mseb",
+      "frequency": "Annual",
+      "due_date": "2027-02-24T15:25:14.191Z",
+      "status": "pending",
+      "source": "MSEDCL High Tension Supply Norms",
+      "created_at": "2026-08-28T15:25:14.191Z"
+    }
+  ],
+  "audit_log": [
+    {
+      "id": 1,
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "BUSINESS_SAVED",
+      "detail": {
+        "name": "Apex Precision Engineering Pvt Ltd"
+      },
+      "created_at": "2026-07-29T15:25:14.191Z"
+    },
+    {
+      "id": "audi_1787930858702_2a2hm",
+      "created_at": "2026-08-28T15:27:38.702Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "BUSINESS_UPDATED",
+      "detail": {
+        "business_id": "biz_001"
+      }
+    },
+    {
+      "id": "audi_1787930865340_9ae49",
+      "created_at": "2026-08-28T15:27:45.340Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "PROJECT_UPDATED",
+      "detail": {
+        "project_id": "proj_001",
+        "updates": {
+          "name": "High-Precision Automotive Components Facility",
+          "location_state": "Maharashtra",
+          "district": "Pune",
+          "industrial_area": "MIDC Chakan",
+          "project_size": "medium",
+          "pollution_category": "orange",
+          "stage": "new_setup",
+          "investment_crore": 12.5,
+          "land_area_sqm": 4500,
+          "employee_count": 85,
+          "production_capacity": "1,500 units/day",
+          "manufacturing_process": "CNC Milling, High Precision Turning, Ultrasonic Cleaning, Automated CMM Inspection",
+          "hazardous_materials": false,
+          "water_requirement_kld": 35,
+          "electricity_requirement_kw": 650,
+          "sub_sector": "precision_engineering",
+          "description": "Greenfield setup of state-of-the-art precision components manufacturing plant supplying EV transmission gears and aerospace bushings."
+        }
+      }
+    },
+    {
+      "id": "audi_1787930868675_43xnw",
+      "created_at": "2026-08-28T15:27:48.675Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "PROJECT_UPDATED",
+      "detail": {
+        "project_id": "proj_001",
+        "updates": {
+          "name": "High-Precision Automotive Components Facility",
+          "location_state": "Maharashtra",
+          "district": "Pune",
+          "industrial_area": "MIDC Chakan",
+          "project_size": "medium",
+          "pollution_category": "orange",
+          "stage": "new_setup",
+          "investment_crore": 12.5,
+          "land_area_sqm": 4500,
+          "employee_count": 85,
+          "production_capacity": "1,500 units/day",
+          "manufacturing_process": "CNC Milling, High Precision Turning, Ultrasonic Cleaning, Automated CMM Inspection",
+          "hazardous_materials": false,
+          "water_requirement_kld": 35,
+          "electricity_requirement_kw": 650,
+          "sub_sector": "precision_engineering",
+          "description": "Greenfield setup of state-of-the-art precision components manufacturing plant supplying EV transmission gears and aerospace bushings."
+        }
+      }
+    },
+    {
+      "id": "audi_1787930972047_nyeok",
+      "created_at": "2026-08-28T15:29:32.047Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "DOCUMENT_UPLOADED",
+      "detail": {
+        "document_id": "docu_1787930972046_6reh5",
+        "doc_type": "GST Registration Certificate",
+        "business_id": "biz_001",
+        "file_name": "Screenshot 2026-08-28 at 7.49.48â¯AM.png"
+      }
+    },
+    {
+      "id": "audi_1787931103747_zglok",
+      "created_at": "2026-08-28T15:31:43.747Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "DOCUMENT_UPLOADED",
+      "detail": {
+        "document_id": "docu_1787931103747_khig5",
+        "doc_type": "PAN Card",
+        "business_id": "biz_001",
+        "file_name": "demo_cto_document.pdf"
+      }
+    },
+    {
+      "id": "audi_1787931229399_m242k",
+      "created_at": "2026-08-28T15:33:49.399Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "DOCUMENT_UPLOADED",
+      "detail": {
+        "document_id": "docu_1787931229398_3oyeu",
+        "doc_type": "PAN Card",
+        "business_id": "biz_001",
+        "file_name": "mock_fssai_certificate.pdf"
+      }
+    },
+    {
+      "id": "audi_1787931282789_0r7bi",
+      "created_at": "2026-08-28T15:34:42.789Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "APPLICATION_SUBMITTED",
+      "detail": {
+        "application_id": "app_inst_001",
+        "project_id": "proj_001",
+        "approvals_count": 7
+      }
+    },
+    {
+      "id": "audi_1787931422838_wj2m6",
+      "created_at": "2026-08-28T15:37:02.838Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "PROJECT_UPDATED",
+      "detail": {
+        "project_id": "proj_001",
+        "updates": {
+          "name": "High-Precision Automotive Components Facility",
+          "location_state": "Maharashtra",
+          "district": "Pune",
+          "industrial_area": "MIDC Chakan",
+          "project_size": "large",
+          "pollution_category": "orange",
+          "stage": "new_setup",
+          "investment_crore": 12.5,
+          "land_area_sqm": 4500,
+          "employee_count": 85,
+          "production_capacity": "1,500 units/day",
+          "manufacturing_process": "CNC Milling, High Precision Turning, Ultrasonic Cleaning, Automated CMM Inspection",
+          "hazardous_materials": false,
+          "water_requirement_kld": 35,
+          "electricity_requirement_kw": 650,
+          "sub_sector": "precision_engineering",
+          "description": "Greenfield setup of state-of-the-art precision components manufacturing plant supplying EV transmission gears and aerospace bushings."
+        }
+      }
+    },
+    {
+      "id": "audi_1787931517877_k3muj",
+      "created_at": "2026-08-28T15:38:37.877Z",
+      "actor": "00000000-0000-0000-0000-000000000001",
+      "action": "QUERY_RESPONDED",
+      "detail": {
+        "query_id": "query_001",
+        "response": "ok wait"
+      }
+    },
+    {
+      "id": "audi_1787932029489_2f6re",
+      "created_at": "2026-08-28T15:47:09.489Z",
+      "actor": "00000000-0000-0000-0000-000000000003",
+      "action": "BUSINESS_SAVED",
+      "detail": {
+        "business_id": "busi_1787932029488_uv1x8",
+        "name": "ini"
+      }
+    },
+    {
+      "id": "audi_1787932074051_ong6z",
+      "created_at": "2026-08-28T15:47:54.051Z",
+      "actor": "00000000-0000-0000-0000-000000000003",
+      "action": "PROJECT_SAVED",
+      "detail": {
+        "project_id": "proj_1787932074048_poxdh",
+        "name": "kn"
+      }
+    },
+    {
+      "id": "audi_1787932765156_rn5dy",
+      "created_at": "2026-08-28T15:59:25.156Z",
+      "actor": "00000000-0000-0000-0000-000000000003",
+      "action": "BUSINESS_SAVED",
+      "detail": {
+        "business_id": "busi_1787932029488_uv1x8",
+        "name": "ff"
+      }
+    },
+    {
+      "id": "audi_1787932774344_dooo3",
+      "created_at": "2026-08-28T15:59:34.344Z",
+      "actor": "00000000-0000-0000-0000-000000000003",
+      "action": "PROJECT_SAVED",
+      "detail": {
+        "project_id": "proj_1787932074048_poxdh",
+        "name": "nm"
+      }
+    },
+    {
+      "id": "audi_1787933073292_dlja6",
+      "created_at": "2026-08-28T16:04:33.292Z",
+      "actor": "00000000-0000-0000-0000-000000000003",
+      "action": "BUSINESS_UPDATED",
+      "detail": {
+        "business_id": "busi_1787932029488_uv1x8"
+      }
+    },
+    {
+      "id": "audi_1787933097369_rjavx",
+      "created_at": "2026-08-28T16:04:57.369Z",
+      "actor": "00000000-0000-0000-0000-000000000003",
+      "action": "PROJECT_UPDATED",
+      "detail": {
+        "project_id": "proj_1787932074048_poxdh",
+        "updates": {
+          "name": "nm",
+          "location_state": "Maharashtra",
+          "district": "Pune",
+          "industrial_area": "MIDC Chakan",
+          "project_size": "small",
+          "pollution_category": "orange",
+          "stage": "new_setup",
+          "investment_crore": 12.5,
+          "land_area_sqm": 4500,
+          "employee_count": 85,
+          "production_capacity": "500 units/day",
+          "manufacturing_process": "CNC Machining, Fabrication, Assembly",
+          "hazardous_materials": false,
+          "water_requirement_kld": 15,
+          "electricity_requirement_kw": 500,
+          "sub_sector": "precision_engineering"
+        }
+      }
+    }
+  ]
+}

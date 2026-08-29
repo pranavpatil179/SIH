@@ -1,0 +1,1 @@
+export default function RegulatoryRules() { return <div className='p-8'><h1 className='text-2xl font-bold'>RegulatoryRules</h1></div> }
