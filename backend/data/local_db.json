@@ -263,12 +263,230 @@
       "prerequisite_approval_type_id": "app_consent_est"
     }
   ],
-  "businesses": [],
-  "projects": [],
+  "businesses": [
+    {
+      "id": "biz_food_001",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "name": "Sahyadri Agro & Food Processing Pvt Ltd",
+      "company_type": "pvt_ltd",
+      "sector": "food_processing",
+      "state": "Maharashtra",
+      "pan": "AAACS7841F",
+      "gstin": "27AAACS7841F1Z8",
+      "cin": "U15400MH2024PTC345678",
+      "address": "Plot No. FP-12, MIDC Mega Food Park, Satara - 415004, Maharashtra",
+      "created_at": "2026-08-29T04:00:00.000Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj_food_001",
+      "business_id": "biz_food_001",
+      "name": "Sahyadri Dairy & Value-Added Cold Chain Plant",
+      "stage": "greenfield",
+      "pollution_category": "orange",
+      "location_state": "Maharashtra",
+      "district": "Satara",
+      "industrial_area": "MIDC Mega Food Park",
+      "investment_crore": 8.5,
+      "land_cost_crore": 1.5,
+      "building_civil_cost_crore": 2.5,
+      "plant_machinery_cost_crore": 4.0,
+      "equipment_utilities_cost_crore": 0.5,
+      "annual_turnover_crore": 18.0,
+      "employee_count": 65,
+      "land_area_sqm": 3500,
+      "builtup_area_sqm": 1800,
+      "hazardous_materials": false,
+      "water_requirement_kld": 25,
+      "power_requirement_kva": 200,
+      "connected_load_kw": 150,
+      "land_ownership_type": "seeking_midc_plot",
+      "food_sub_category": "dairy_milk",
+      "sector": "food_processing",
+      "sub_sector": "dairy_milk",
+      "created_at": "2026-08-29T04:00:00.000Z"
+    }
+  ],
   "applications": [],
   "application_approvals": [],
-  "documents": [],
-  "document_verifications": [],
+  "documents": [
+    {
+      "id": "doc_fssai_fsms_01",
+      "business_id": "biz_food_001",
+      "doc_type": "FSSAI Food Safety Management System (FSMS) Plan & Flowchart",
+      "file_name": "Sahyadri_Dairy_FSMS_Plan_2026.pdf",
+      "file_url": "/uploads/Sahyadri_Dairy_FSMS_Plan_2026.pdf",
+      "file_size": 2451200,
+      "mime_type": "application/pdf",
+      "is_verified": true,
+      "validation_status": "valid",
+      "expiry_date": "2029-08-15",
+      "created_at": "2026-08-29T04:10:00.000Z"
+    },
+    {
+      "id": "doc_water_test_02",
+      "business_id": "biz_food_001",
+      "doc_type": "Potable Water Test Report as per IS 10500 (NABL Lab)",
+      "file_name": "NABL_Lab_Water_Test_IS10500_Cert.pdf",
+      "file_url": "/uploads/NABL_Lab_Water_Test_IS10500_Cert.pdf",
+      "file_size": 1124000,
+      "mime_type": "application/pdf",
+      "is_verified": true,
+      "validation_status": "valid",
+      "expiry_date": "2027-08-10",
+      "created_at": "2026-08-29T04:12:00.000Z"
+    },
+    {
+      "id": "doc_dish_plan_03",
+      "business_id": "biz_food_001",
+      "doc_type": "DISH Approved Factory Building Architectural Blueprints (Rule 3-A)",
+      "file_name": "DISH_Rule3A_Architectural_Blueprints_Triplicate.pdf",
+      "file_url": "/uploads/DISH_Rule3A_Architectural_Blueprints_Triplicate.pdf",
+      "file_size": 4890000,
+      "mime_type": "application/pdf",
+      "is_verified": true,
+      "validation_status": "valid",
+      "created_at": "2026-08-29T04:14:00.000Z"
+    },
+    {
+      "id": "doc_fire_noc_04",
+      "business_id": "biz_food_001",
+      "doc_type": "Provisional Fire Safety NOC & Evacuation Plan (MFES)",
+      "file_name": "MFES_Provisional_Fire_NOC_Evacuation_Plan.pdf",
+      "file_url": "/uploads/MFES_Provisional_Fire_NOC_Evacuation_Plan.pdf",
+      "file_size": 3105000,
+      "mime_type": "application/pdf",
+      "is_verified": true,
+      "validation_status": "valid",
+      "expiry_date": "2027-08-25",
+      "created_at": "2026-08-29T04:15:00.000Z"
+    },
+    {
+      "id": "doc_etp_scheme_05",
+      "business_id": "biz_food_001",
+      "doc_type": "MPCB Organic Effluent ETP & Bio-Methanation Scheme",
+      "file_name": "MPCB_Bio_Methanation_ETP_Scheme.pdf",
+      "file_url": "/uploads/MPCB_Bio_Methanation_ETP_Scheme.pdf",
+      "file_size": 3670000,
+      "mime_type": "application/pdf",
+      "is_verified": true,
+      "validation_status": "valid",
+      "created_at": "2026-08-29T04:18:00.000Z"
+    },
+    {
+      "id": "doc_power_load_06",
+      "business_id": "biz_food_001",
+      "doc_type": "MSEDCL Connected Load Estimation & Cold Storage Calculations",
+      "file_name": "MSEDCL_150kW_ColdStorage_SLD_Load_Sanction.pdf",
+      "file_url": "/uploads/MSEDCL_150kW_ColdStorage_SLD_Load_Sanction.pdf",
+      "file_size": 1890000,
+      "mime_type": "application/pdf",
+      "is_verified": true,
+      "validation_status": "valid",
+      "created_at": "2026-08-29T04:20:00.000Z"
+    }
+  ],
+  "document_verifications": [
+    {
+      "id": "verif_001",
+      "document_id": "doc_fssai_fsms_01",
+      "status": "valid",
+      "confidence_score": 0.98,
+      "extracted_data": {
+        "document_name": "Food Safety Management System (FSMS) Manual",
+        "standard": "FSS Act 2006 / ISO 22000:2018",
+        "facility_type": "Dairy & Value-Added Milk Products",
+        "haccp_ccp_count": 4,
+        "certified_lead_auditor": "Dr. V. N. Kulkarni (Lead FSMS Auditor)"
+      },
+      "issues": [],
+      "suggestions": ["FSMS Plan is comprehensive with CCP critical limits and allergen controls. Ready for FSSAI scrutiny."],
+      "verified_at": "2026-08-29T04:10:30.000Z"
+    },
+    {
+      "id": "verif_002",
+      "document_id": "doc_water_test_02",
+      "status": "valid",
+      "confidence_score": 0.99,
+      "extracted_data": {
+        "document_name": "Water Potability Test Certificate",
+        "standard": "IS 10500:2012 (Drinking Water Specification)",
+        "testing_laboratory": "NABL Accredited EnviroCare Labs Pune",
+        "ph_value": "7.2",
+        "coliform_bacteria": "0 CFU / 100ml (Compliant)",
+        "lead_mercury_heavy_metals": "Below Detectable Limits (BDL)"
+      },
+      "issues": [],
+      "suggestions": ["Potable water test report satisfies statutory biological and chemical thresholds under FSSAI Regulations."],
+      "verified_at": "2026-08-29T04:12:30.000Z"
+    },
+    {
+      "id": "verif_003",
+      "document_id": "doc_dish_plan_03",
+      "status": "valid",
+      "confidence_score": 0.95,
+      "extracted_data": {
+        "document_name": "Factory Architectural Layout Blueprints",
+        "regulation": "Maharashtra Factories Rules 1963, Rule 3-A",
+        "scale": "1:100 Triplicate Blueprint",
+        "architect_reg": "COA/2018/98421",
+        "occupational_headroom": "4.5 metres",
+        "ventilation_ratio": "18.5% of floor area (Above 15% statutory threshold)"
+      },
+      "issues": [],
+      "suggestions": ["Compliant with DISH Rule 3-A physical spacing and cross-ventilation norms."],
+      "verified_at": "2026-08-29T04:14:30.000Z"
+    },
+    {
+      "id": "verif_004",
+      "document_id": "doc_fire_noc_04",
+      "status": "valid",
+      "confidence_score": 0.94,
+      "extracted_data": {
+        "document_name": "Provisional Fire Safety NOC",
+        "statutory_act": "Maharashtra Fire Prevention & Life Safety Measures Act 2006",
+        "fire_water_storage": "100 kL Underground Static Tank",
+        "hydrant_ring_main": "150mm dia Ring Main with 6 Landing Valves",
+        "evacuation_corridor_width": "2.2 metres"
+      },
+      "issues": [],
+      "suggestions": ["Static fire reserve and dual fire booster pumps verified compliant with NBC 2016 Part IV."],
+      "verified_at": "2026-08-29T04:15:30.000Z"
+    },
+    {
+      "id": "verif_005",
+      "document_id": "doc_etp_scheme_05",
+      "status": "valid",
+      "confidence_score": 0.96,
+      "extracted_data": {
+        "document_name": "Organic Effluent ETP & Anaerobic Digester Scheme",
+        "effluent_capacity": "30 KLD Organic Waste Stream",
+        "bod_reduction": "From 2,800 mg/L to < 30 mg/L (98.9% Reduction)",
+        "cod_reduction": "From 5,200 mg/L to < 100 mg/L",
+        "treated_water_reuse": "100% recycling for boiler feed and green belt irrigation"
+      },
+      "issues": [],
+      "suggestions": ["ETP hydraulic retention time and anaerobic digestion scheme meets MPCB Orange Category standards."],
+      "verified_at": "2026-08-29T04:18:30.000Z"
+    },
+    {
+      "id": "verif_006",
+      "document_id": "doc_power_load_06",
+      "status": "valid",
+      "confidence_score": 0.97,
+      "extracted_data": {
+        "document_name": "HT Power Load Estimation & Single Line Diagram",
+        "contract_demand": "150 kW (187.5 kVA)",
+        "supply_voltage": "11 kV High-Tension (HT) Feeder Line",
+        "transformer_rating": "250 kVA 11kV/433V Oil-Cooled Substation",
+        "chartered_engineer_license": "CE-EE-MH/2021/7710"
+      },
+      "issues": [],
+      "suggestions": ["MERC Supply Code Regulation 4.1 compliant. Earthing pit resistance < 1.0 Ohm verified."],
+      "verified_at": "2026-08-29T04:20:30.000Z"
+    }
+  ],
   "queries": [],
   "query_responses": [],
   "inspections": [],
@@ -293,361 +511,9 @@
       "min_investment_crore": 5,
       "max_investment_crore": 500,
       "status": "active"
-    },
-    {
-      "id": "scheme_msme_interest",
-      "name": "Maharashtra MSME 5% Interest Subvention Scheme",
-      "description": "Direct interest subvention of 5% on term loans disbursed by Scheduled Commercial Banks to newly registered Micro & Small enterprises.",
-      "department_id": "dept_dic",
-      "benefit": "5% annual interest reimbursement on term loan up to ₹25 Lakhs per year for 5 years",
-      "sector_eligibility": [
-        "manufacturing",
-        "food_processing",
-        "textile",
-        "agro",
-        "it_services"
-      ],
-      "location_eligibility": [
-        "Maharashtra"
-      ],
-      "min_investment_crore": 0.25,
-      "max_investment_crore": 10,
-      "status": "active"
-    },
-    {
-      "id": "scheme_green_energy",
-      "name": "Green Energy & Zero Liquid Discharge (ZLD) Capital Grant",
-      "description": "Financial assistance for industrial units installing effluent zero-discharge treatment facilities, rooftop solar power systems, and rainwater harvesting infrastructure.",
-      "department_id": "dept_mpcb",
-      "benefit": "25% capital subsidy on pollution abatement & solar equipment up to ₹50 Lakhs",
-      "sector_eligibility": [
-        "manufacturing",
-        "chemical",
-        "pharmaceutical",
-        "food_processing"
-      ],
-      "location_eligibility": [
-        "Maharashtra"
-      ],
-      "min_investment_crore": 1,
-      "max_investment_crore": 100,
-      "status": "active"
-    },
-    {
-      "id": "scheme_export_msme",
-      "name": "Export Promotion & Quality Certification Support",
-      "description": "100% reimbursement of fee incurred on ISO, CE, BIS, and international quality testing certifications for export-oriented manufacturers.",
-      "department_id": "dept_dic",
-      "benefit": "Up to ₹15 Lakhs reimbursement for certification + ₹5 Lakhs stall subsidy in global expos",
-      "sector_eligibility": [
-        "manufacturing",
-        "pharmaceutical",
-        "textile",
-        "food_processing"
-      ],
-      "location_eligibility": [
-        "Maharashtra"
-      ],
-      "min_investment_crore": 0.5,
-      "status": "active"
     }
   ],
-  "notifications": [
-    {
-      "id": "notif_001",
-      "user_id": "00000000-0000-0000-0000-000000000001",
-      "type": "approval_approved",
-      "title": "MIDC Allotment Order Approved",
-      "message": "Your application for MIDC Industrial Land Allotment (MIDC/PN/2026/IND-4421) has been approved.",
-      "entity_type": "approval",
-      "entity_id": "aprv_002",
-      "is_read": false,
-      "created_at": "2026-08-26T15:25:14.191Z"
-    },
-    {
-      "id": "notif_002",
-      "user_id": "00000000-0000-0000-0000-000000000001",
-      "type": "query_raised",
-      "title": "MPCB Query Raised on CTE",
-      "message": "An officer raised a query regarding acoustic enclosure drawings for your Consent to Establish.",
-      "entity_type": "query",
-      "entity_id": "query_001",
-      "is_read": false,
-      "created_at": "2026-08-25T15:25:14.191Z"
-    },
-    {
-      "id": "noti_1787931282789_3ts2k",
-      "created_at": "2026-08-28T15:34:42.789Z",
-      "user_id": "00000000-0000-0000-0000-000000000001",
-      "type": "application_submitted",
-      "title": "Application Submitted",
-      "message": "Your application has been submitted successfully with 7 approval workflow(s) initiated.",
-      "entity_type": "application",
-      "entity_id": "app_inst_001",
-      "is_read": false
-    }
-  ],
-  "compliance_obligations": [
-    {
-      "id": "comp_001",
-      "application_approval_id": "aprv_001",
-      "name": "Quarterly Environmental Monitoring Report",
-      "description": "Submit ambient air quality and noise monitoring report to MPCB Sub-Regional Office Pune.",
-      "department_id": "dept_mpcb",
-      "frequency": "Quarterly",
-      "due_date": "2026-10-12T15:25:14.191Z",
-      "status": "pending",
-      "source": "Consent to Establish (CTE) condition #12",
-      "created_at": "2026-08-28T15:25:14.191Z"
-    },
-    {
-      "id": "comp_002",
-      "application_approval_id": "aprv_005",
-      "name": "Annual Electrical Safety & Earthing Audit",
-      "description": "Conduct and file yearly electrical inspection report certified by Licensed Electrical Contractor.",
-      "department_id": "dept_mseb",
-      "frequency": "Annual",
-      "due_date": "2027-02-24T15:25:14.191Z",
-      "status": "pending",
-      "source": "MSEDCL High Tension Supply Norms",
-      "created_at": "2026-08-28T15:25:14.191Z"
-    }
-  ],
-  "audit_log": [
-    {
-      "id": 1,
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "BUSINESS_SAVED",
-      "detail": {
-        "name": "Apex Precision Engineering Pvt Ltd"
-      },
-      "created_at": "2026-07-29T15:25:14.191Z"
-    },
-    {
-      "id": "audi_1787930858702_2a2hm",
-      "created_at": "2026-08-28T15:27:38.702Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "BUSINESS_UPDATED",
-      "detail": {
-        "business_id": "biz_001"
-      }
-    },
-    {
-      "id": "audi_1787930865340_9ae49",
-      "created_at": "2026-08-28T15:27:45.340Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "PROJECT_UPDATED",
-      "detail": {
-        "project_id": "proj_001",
-        "updates": {
-          "name": "High-Precision Automotive Components Facility",
-          "location_state": "Maharashtra",
-          "district": "Pune",
-          "industrial_area": "MIDC Chakan",
-          "project_size": "medium",
-          "pollution_category": "orange",
-          "stage": "new_setup",
-          "investment_crore": 12.5,
-          "land_area_sqm": 4500,
-          "employee_count": 85,
-          "production_capacity": "1,500 units/day",
-          "manufacturing_process": "CNC Milling, High Precision Turning, Ultrasonic Cleaning, Automated CMM Inspection",
-          "hazardous_materials": false,
-          "water_requirement_kld": 35,
-          "electricity_requirement_kw": 650,
-          "sub_sector": "precision_engineering",
-          "description": "Greenfield setup of state-of-the-art precision components manufacturing plant supplying EV transmission gears and aerospace bushings."
-        }
-      }
-    },
-    {
-      "id": "audi_1787930868675_43xnw",
-      "created_at": "2026-08-28T15:27:48.675Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "PROJECT_UPDATED",
-      "detail": {
-        "project_id": "proj_001",
-        "updates": {
-          "name": "High-Precision Automotive Components Facility",
-          "location_state": "Maharashtra",
-          "district": "Pune",
-          "industrial_area": "MIDC Chakan",
-          "project_size": "medium",
-          "pollution_category": "orange",
-          "stage": "new_setup",
-          "investment_crore": 12.5,
-          "land_area_sqm": 4500,
-          "employee_count": 85,
-          "production_capacity": "1,500 units/day",
-          "manufacturing_process": "CNC Milling, High Precision Turning, Ultrasonic Cleaning, Automated CMM Inspection",
-          "hazardous_materials": false,
-          "water_requirement_kld": 35,
-          "electricity_requirement_kw": 650,
-          "sub_sector": "precision_engineering",
-          "description": "Greenfield setup of state-of-the-art precision components manufacturing plant supplying EV transmission gears and aerospace bushings."
-        }
-      }
-    },
-    {
-      "id": "audi_1787930972047_nyeok",
-      "created_at": "2026-08-28T15:29:32.047Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "DOCUMENT_UPLOADED",
-      "detail": {
-        "document_id": "docu_1787930972046_6reh5",
-        "doc_type": "GST Registration Certificate",
-        "business_id": "biz_001",
-        "file_name": "Screenshot 2026-08-28 at 7.49.48â¯AM.png"
-      }
-    },
-    {
-      "id": "audi_1787931103747_zglok",
-      "created_at": "2026-08-28T15:31:43.747Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "DOCUMENT_UPLOADED",
-      "detail": {
-        "document_id": "docu_1787931103747_khig5",
-        "doc_type": "PAN Card",
-        "business_id": "biz_001",
-        "file_name": "demo_cto_document.pdf"
-      }
-    },
-    {
-      "id": "audi_1787931229399_m242k",
-      "created_at": "2026-08-28T15:33:49.399Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "DOCUMENT_UPLOADED",
-      "detail": {
-        "document_id": "docu_1787931229398_3oyeu",
-        "doc_type": "PAN Card",
-        "business_id": "biz_001",
-        "file_name": "mock_fssai_certificate.pdf"
-      }
-    },
-    {
-      "id": "audi_1787931282789_0r7bi",
-      "created_at": "2026-08-28T15:34:42.789Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "APPLICATION_SUBMITTED",
-      "detail": {
-        "application_id": "app_inst_001",
-        "project_id": "proj_001",
-        "approvals_count": 7
-      }
-    },
-    {
-      "id": "audi_1787931422838_wj2m6",
-      "created_at": "2026-08-28T15:37:02.838Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "PROJECT_UPDATED",
-      "detail": {
-        "project_id": "proj_001",
-        "updates": {
-          "name": "High-Precision Automotive Components Facility",
-          "location_state": "Maharashtra",
-          "district": "Pune",
-          "industrial_area": "MIDC Chakan",
-          "project_size": "large",
-          "pollution_category": "orange",
-          "stage": "new_setup",
-          "investment_crore": 12.5,
-          "land_area_sqm": 4500,
-          "employee_count": 85,
-          "production_capacity": "1,500 units/day",
-          "manufacturing_process": "CNC Milling, High Precision Turning, Ultrasonic Cleaning, Automated CMM Inspection",
-          "hazardous_materials": false,
-          "water_requirement_kld": 35,
-          "electricity_requirement_kw": 650,
-          "sub_sector": "precision_engineering",
-          "description": "Greenfield setup of state-of-the-art precision components manufacturing plant supplying EV transmission gears and aerospace bushings."
-        }
-      }
-    },
-    {
-      "id": "audi_1787931517877_k3muj",
-      "created_at": "2026-08-28T15:38:37.877Z",
-      "actor": "00000000-0000-0000-0000-000000000001",
-      "action": "QUERY_RESPONDED",
-      "detail": {
-        "query_id": "query_001",
-        "response": "ok wait"
-      }
-    },
-    {
-      "id": "audi_1787932029489_2f6re",
-      "created_at": "2026-08-28T15:47:09.489Z",
-      "actor": "00000000-0000-0000-0000-000000000003",
-      "action": "BUSINESS_SAVED",
-      "detail": {
-        "business_id": "busi_1787932029488_uv1x8",
-        "name": "ini"
-      }
-    },
-    {
-      "id": "audi_1787932074051_ong6z",
-      "created_at": "2026-08-28T15:47:54.051Z",
-      "actor": "00000000-0000-0000-0000-000000000003",
-      "action": "PROJECT_SAVED",
-      "detail": {
-        "project_id": "proj_1787932074048_poxdh",
-        "name": "kn"
-      }
-    },
-    {
-      "id": "audi_1787932765156_rn5dy",
-      "created_at": "2026-08-28T15:59:25.156Z",
-      "actor": "00000000-0000-0000-0000-000000000003",
-      "action": "BUSINESS_SAVED",
-      "detail": {
-        "business_id": "busi_1787932029488_uv1x8",
-        "name": "ff"
-      }
-    },
-    {
-      "id": "audi_1787932774344_dooo3",
-      "created_at": "2026-08-28T15:59:34.344Z",
-      "actor": "00000000-0000-0000-0000-000000000003",
-      "action": "PROJECT_SAVED",
-      "detail": {
-        "project_id": "proj_1787932074048_poxdh",
-        "name": "nm"
-      }
-    },
-    {
-      "id": "audi_1787933073292_dlja6",
-      "created_at": "2026-08-28T16:04:33.292Z",
-      "actor": "00000000-0000-0000-0000-000000000003",
-      "action": "BUSINESS_UPDATED",
-      "detail": {
-        "business_id": "busi_1787932029488_uv1x8"
-      }
-    },
-    {
-      "id": "audi_1787933097369_rjavx",
-      "created_at": "2026-08-28T16:04:57.369Z",
-      "actor": "00000000-0000-0000-0000-000000000003",
-      "action": "PROJECT_UPDATED",
-      "detail": {
-        "project_id": "proj_1787932074048_poxdh",
-        "updates": {
-          "name": "nm",
-          "location_state": "Maharashtra",
-          "district": "Pune",
-          "industrial_area": "MIDC Chakan",
-          "project_size": "small",
-          "pollution_category": "orange",
-          "stage": "new_setup",
-          "investment_crore": 12.5,
-          "land_area_sqm": 4500,
-          "employee_count": 85,
-          "production_capacity": "500 units/day",
-          "manufacturing_process": "CNC Machining, Fabrication, Assembly",
-          "hazardous_materials": false,
-          "water_requirement_kld": 15,
-          "electricity_requirement_kw": 500,
-          "sub_sector": "precision_engineering"
-        }
-      }
-    }
-  ]
+  "notifications": [],
+  "compliance_obligations": [],
+  "audit_log": []
 }
