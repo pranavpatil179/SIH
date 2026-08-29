@@ -4,12 +4,10 @@
   "private": true,
   "description": "Udyami Setu — a single, intelligent front door for industrial approvals, compliance, and government support services (SIH 2026).",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "seed": "node --env-file=.env.local scripts/seed.mjs",
-    "test:engine": "node lib/rules/engine.test.mts"
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd frontend && npm run preview",
+    "lint": "cd frontend && npm run lint"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
